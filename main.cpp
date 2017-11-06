@@ -85,6 +85,9 @@ void Menu(void outputting(Node *&), int flag, List &list, Node *&last,
       case 7:
         cout << "Do you want to leave program? ( yes, no )" << endl;
         cin >> exit;
+        if ((exit == "y") || (exit == "yes") || (exit == "Y") ||
+            (exit == "Yes") || (exit == "YES"))
+          cout << "Good by!";
         break;
     }
   }
