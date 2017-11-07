@@ -8,15 +8,16 @@ struct Node {
 };
 struct List {
   Node *head;
+  Node *last;
 };
-void fill(List &list, int integer1, Node *&last) {
+void fill(List &list, int integer1) {
   Node *curr = new Node{integer1, nullptr};
   if (list.head == nullptr)
     list.head = curr;
   else {
     if (list.head->next == nullptr) list.head->next = curr;
-    if (last != nullptr) last->next = curr;
-    last = curr;
+    if (list.last != nullptr) list.last->next = curr;
+    list.last = curr;
   }
 }
 void outputting(Node *&curr) {
@@ -28,7 +29,7 @@ void outputting(Node *&curr) {
     curr = curr->next;
   } while (curr != nullptr);
 }
-void increase_count(Node *&last, List &list, int &flag) {
+void increase_count(List &list, int &flag) {
   int k = 0;
   int integer1;
   string number_array;
@@ -48,16 +49,16 @@ void increase_count(Node *&last, List &list, int &flag) {
     integer1 = atoi(integer_str.c_str());
     Node *curr = new Node{integer1, nullptr};
     if (list.head == nullptr) {
-      list.head = last = curr;
+      list.head = list.last = curr;
       flag = 1;
     } else {
-      last->next = curr;
-      last = curr;
+      list.last->next = curr;
+      list.last = curr;
     };
     integer_str = "";
   }
 }
-void Menu(int flag, List &list, Node *&last) {
+void Menu(int flag, List &list) {
   Node *curr = nullptr;
   string exit;
   int choise;
@@ -84,7 +85,7 @@ void Menu(int flag, List &list, Node *&last) {
         break;
       case 2:
         cout << " Enter elements" << endl;
-        increase_count(last, list, flag);
+        increase_count(list, flag);
         break;
       case 7:
         cout << "Do you want to leave program? ( yes, no )" << endl;
@@ -97,11 +98,11 @@ void Menu(int flag, List &list, Node *&last) {
   }
 }
 int main(int argc, char *argv[]) {
-  Node *last = nullptr;
   int flag = 1;
   int integer1;
   List list;
   list.head = nullptr;
+  list.last = nullptr;
   if (argc == 1)
     flag = 0;
   else {
@@ -121,17 +122,17 @@ int main(int argc, char *argv[]) {
         }
         if (integer_str == "") break;
         integer1 = atoi(integer_str.c_str());
-        fill(list, integer1, last);
+        fill(list, integer1);
         integer_str = "";
       }
     } else {
       int n = 1;
       while (n < argc) {
         integer1 = atoi(argv[n]);
-        fill(list, integer1, last);
+        fill(list, integer1);
         n++;
       }
     }
   }
-  Menu(outputting, flag, list, last, increase_count);
+  Menu(flag, list);
 }
