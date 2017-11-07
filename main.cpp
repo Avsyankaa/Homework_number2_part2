@@ -29,7 +29,7 @@ void outputting(Node *&curr) {
     curr = curr->next;
   } while (curr != nullptr);
 }
-void increase_count(List &list, int &flag) {
+void increase_count(List &list) {
   int k = 0;
   int integer1;
   string number_array;
@@ -50,7 +50,6 @@ void increase_count(List &list, int &flag) {
     Node *curr = new Node{integer1, nullptr};
     if (list.head == nullptr) {
       list.head = list.last = curr;
-      flag = 1;
     } else {
       list.last->next = curr;
       list.last = curr;
@@ -58,7 +57,7 @@ void increase_count(List &list, int &flag) {
     integer_str = "";
   }
 }
-void Menu(int flag, List &list) {
+void Menu(List &list) {
   Node *curr = nullptr;
   string exit;
   int choise;
@@ -75,7 +74,7 @@ void Menu(int flag, List &list) {
     cin >> choise;
     switch (choise) {
       case 1:
-        if (flag == 0)
+        if (list.head == nullptr)
           cout << "List is empty" << endl;
         else {
           curr = list.head;
@@ -85,7 +84,7 @@ void Menu(int flag, List &list) {
         break;
       case 2:
         cout << " Enter elements" << endl;
-        increase_count(list, flag);
+        increase_count(list);
         break;
       case 7:
         cout << "Do you want to leave program? ( yes, no )" << endl;
@@ -98,41 +97,36 @@ void Menu(int flag, List &list) {
   }
 }
 int main(int argc, char *argv[]) {
-  int flag = 1;
   int integer1;
   List list;
   list.head = nullptr;
   list.last = nullptr;
-  if (argc == 1)
-    flag = 0;
-  else {
-    if (argc == 2) {
-      int k = 0;
-      string number_array;
-      number_array = argv[1];
-      string integer_str;
-      while (true) {
-        for (int i = k; i < number_array.length(); i++) {
-          if (number_array[i] == ',') {
-            k++;
-            break;
-          }
-          integer_str = integer_str + number_array[i];
+  if (argc == 2) {
+    int k = 0;
+    string number_array;
+    number_array = argv[1];
+    string integer_str;
+    while (true) {
+      for (int i = k; i < number_array.length(); i++) {
+        if (number_array[i] == ',') {
           k++;
+          break;
         }
-        if (integer_str == "") break;
-        integer1 = atoi(integer_str.c_str());
-        fill(list, integer1);
-        integer_str = "";
+        integer_str = integer_str + number_array[i];
+        k++;
       }
-    } else {
-      int n = 1;
-      while (n < argc) {
-        integer1 = atoi(argv[n]);
-        fill(list, integer1);
-        n++;
-      }
+      if (integer_str == "") break;
+      integer1 = atoi(integer_str.c_str());
+      fill(list, integer1);
+      integer_str = "";
+    }
+  } else {
+    int n = 1;
+    while (n < argc) {
+      integer1 = atoi(argv[n]);
+      fill(list, integer1);
+      n++;
     }
   }
-  Menu(flag, list);
+  Menu(list);
 }
