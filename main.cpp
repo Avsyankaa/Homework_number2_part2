@@ -28,7 +28,7 @@ void outputting(Node *&curr) {
     curr = curr->next;
   } while (curr != nullptr);
 }
-void increase_count(Node *&last) {
+void increase_count(Node *&last, List &list, int &flag) {
   int k = 0;
   int integer1;
   string number_array;
@@ -47,13 +47,18 @@ void increase_count(Node *&last) {
     if (integer_str == "") break;
     integer1 = atoi(integer_str.c_str());
     Node *curr = new Node{integer1, nullptr};
-    last->next = curr;
-    last = curr;
+    if (list.head == nullptr) {
+      list.head = last = curr;
+      flag = 1;
+    } else {
+      last->next = curr;
+      last = curr;
+    };
     integer_str = "";
   }
 }
 void Menu(void outputting(Node *&), int flag, List &list, Node *&last,
-          void increase_count(Node *&)) {
+          void increase_count(Node *&, List &, int &)) {
   Node *curr = nullptr;
   string exit;
   int choise;
@@ -80,7 +85,7 @@ void Menu(void outputting(Node *&), int flag, List &list, Node *&last,
         break;
       case 2:
         cout << " Enter elements" << endl;
-        increase_count(last);
+        increase_count(last, list, flag);
         break;
       case 7:
         cout << "Do you want to leave program? ( yes, no )" << endl;
