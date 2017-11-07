@@ -57,8 +57,7 @@ void increase_count(Node *&last, List &list, int &flag) {
     integer_str = "";
   }
 }
-void Menu(void outputting(Node *&), int flag, List &list, Node *&last,
-          void increase_count(Node *&, List &, int &)) {
+void Menu(int flag, List &list, Node *&last) {
   Node *curr = nullptr;
   string exit;
   int choise;
